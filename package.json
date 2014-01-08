@@ -1,0 +1,22 @@
+{
+  "name": "ionic-angular-pubnub",
+  "version": "0.13.8",
+  "description": "ionic-angular-pubnub",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "malixsys",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-nodemon": "~0.1.2",
+    "grunt-concurrent": "~0.4.2"
+  },
+  "dependencies": {
+    "express": "~3.4.7",
+    "pubnub": "~3.5.48",
+    "coffee-script-redux": "~2.0.0-beta7"
+  }
+}

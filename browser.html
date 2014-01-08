@@ -1,0 +1,48 @@
+<meta name="description" content="PubNub2" />
+<html>
+<body>
+<h1>PubNub2</h1>
+<div id="output">START</div>
+<script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="http://code.ionicframework.com/nightly/js/ionic.js"></script>
+
+<script>
+    (function browser_app(){
+        var SECRET = "SECRET";
+        var output = function(message){ PUBNUB.$('output').innerHTML += "<br/>" + JSON.stringify(message, null, 2)};
+        output("Initializing...");
+        var authKey = PUBNUB.uuid();
+        var pubnub = PUBNUB.init({
+            publish_key: 'pub-c-9595c3b6-29b2-4030-9a3b-be73265fc5d6',
+            subscribe_key: 'sub-c-5fc45ee2-7716-11e3-9291-02ee2ddab7fe',
+            auth_key: SECRET,
+            origin: 'pubsub.pubnub.com',
+            ssl:    true
+        });
+        output("Subscribing to broadcast...");
+        var result = pubnub.subscribe({
+            channel: 'broadcast',
+            auth_key: SECRET,
+            callback: function(message){
+                output(message);
+            },
+            connect: function(){console.log("Connected")},
+            disconnect: function(){console.log("Disconnected")},
+            reconnect: function(){console.log("Reconnected")},
+            restore: true,
+            error: function(message) {
+                output(message);
+            }
+        });
+        output(result);
+        if(result === 1){
+            pubnub.publish({
+                channel: 'broadcast',
+                auth_key: SECRET,
+                message: 'CONNECTED!'
+            });
+        }
+    })();
+</script>
+</body>
+</html>
