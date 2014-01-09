@@ -27,7 +27,7 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({store: new RedisStore({host: 'localhost', port: 6379}),  secret: 'supersecretsauce'}));
+app.use(express.session({secret: 'supersecretsauce'}));
 app.use(express.methodOverride());
 app.use(app.router);
 
@@ -51,7 +51,6 @@ server.use = function () {
 var path = require('path');
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
-var folderMount = function folderMount (express, point) {
-  'use strict';
-  return express.static(path.resolve(point));
-};
+app.listen(9999, '0.0.0.0', 511, function(){
+  console.log('Listening on port 9999...')
+})

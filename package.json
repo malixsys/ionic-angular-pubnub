@@ -17,6 +17,7 @@
   "dependencies": {
     "express": "~3.4.7",
     "pubnub": "~3.5.48",
-    "coffee-script-redux": "~2.0.0-beta7"
+    "coffee-script-redux": "~2.0.0-beta7",
+    "grunt-contrib-livereload": "~0.1.2"
   }
 }
