@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionic.hello" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Todo</name>
+    <name>carmo.io</name>
     <description>
-        A sample Ionic Framework app using Cordova and AngularJS.
+        carmo.io
     </description>
-    <author email="dev@callback.apache.org" href="http://nitrous.io">
-        Nitrous.IO
+    <author email="dev@malix.com" href="http://malix.io">
+        malixsys
     </author>
     <content src="index.html" />
     <access origin="*" />
