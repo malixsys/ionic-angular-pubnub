@@ -116,6 +116,16 @@ angular.module('app', ['ionic'])
   .controller('AutoListCtrl', function($scope, $state) {
     $scope.autoListData = "AutoListCtrl Data";
 
+    $scope.rightButtons = [
+      { content: '',
+        type: 'button button-clear icon ion-gear-a',
+        tap: function(){
+          console.log($scope);
+          $scope.sideMenuController.toggleRight();
+        }
+      }
+    ];
+
     $scope.testStateGo = function() {
       var toParams = { id: 4 };
       $state.go('tabs.autodetail', toParams);

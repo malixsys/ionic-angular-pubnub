@@ -137,16 +137,20 @@
 </script>
 
 <script id="auto-list.html" type="text/ng-template">
-    <view title="'Auto List'">
+    <view title="'Auto List'" right-buttons="rightButtons">
         <content has-header="true" has-tabs="true">
             <list>
                 <item ng-repeat="auto in autos" ng-href="#/tabs/autos/{{ $index }}">
                     {{ auto.year }} {{ auto.make }} {{ auto.model }}
                 </item>
             </list>
-            <p>
-                <button ng-click="testStateGo()">Test State Go</button>
-            </p>
+            <div class="row">
+                <div class="col col-33 col-offset-67">
+                    <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="testStateGo()">
+                        Direct to Shelby!
+                    </button>
+                </div>
+            </div>
         </content>
     </view>
 </script>

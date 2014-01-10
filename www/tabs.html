@@ -1,11 +1,11 @@
+<side-menus>
+<tabs side-menu-content tabs-style="tabs-icon-top" tabs-type="tabs-dark" animation="slide-left-right-ios7">
 
-<tabs tabs-style="tabs-icon-top" tabs-type="tabs-dark" animation="slide-left-right-ios7">
-
-<tab title="Automobiles" icon="ion-model-s" href="#/tabs/autos">
+<tab title="Automobiles" icon="ion-model-s" ui-sref="tabs.autolist">
     <nav-view name="auto-ui-view"></nav-view>
 </tab>
 
-<tab title="Add" icon="ion-plus-circled" href="#/tabs/add-auto">
+<tab title="Add" icon="ion-plus-circled" ui-sref="tabs.addauto">
     <nav-view name="add-autos-ui-view"></nav-view>
 </tab>
 
@@ -17,3 +17,17 @@
 </tab>
 
 </tabs>
+    <side-menu side="right">
+        <header class="bar bar-header bar-assertive">
+            <h1 class="title">Paramètres</h1>
+        </header>
+        <content has-header="true">
+            <ul class="list" ng-init="list=[{text:'profile',icon:'ion-person'}]">
+                <a href="#" class="item" ng-repeat="item in list" >
+                    <i class="icon {{item.icon}}"></i>
+                    {{item.text}}
+                </a>
+            </ul>
+        </content>
+    </side-menu>
+</side-menus>
