@@ -6,97 +6,10 @@
     <!-- Sets initial viewport load and disables zooming  -->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <!-- ionic css -->
-    <link href="https://raw2.github.com/driftyco/ionic/master/dist/css/ionic.css" rel="stylesheet">
-
-    <!-- example's custom css -->
-    <style>
-        #profile-bg {
-            position: fixed;
-            left: 0;
-            top: 44px;
-            width: 100%;
-            height: 150px;
-
-            background: url('bg.jpg') no-repeat transparent;
-            background-size: 100%;
-            background-position: 50% 20%;
-
-            text-align: center;
-        }
-
-        #content {
-            position: relative;
-            margin-top: 150px;
-            background-color: white;
-            box-shadow: 0px -1px 10px rgba(0,0,0,0.4);
-            padding-top: 200px;
-        }
-
-        #profile-info {
-            position: absolute;
-            top: -95px;
-            width: 100%;
-            z-index: 2;
-            text-align: center;
-        }
-        #profile-name {
-            color: #444;
-            font-size: 26px;
-        }
-        #profile-description {
-            font-size: 15px;
-            color: #888;
-        }
-        #profile-description a {
-            color: #888;
-        }
-
-        #profile-image {
-            display: block;
-            border-radius: 100px;
-            border: 1px solid #fff;
-            width: 128px;
-            height: 128px;
-            margin: 30px auto 0;
-            box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
-        }
-
-        .list-item-content {
-            padding: 5px;
-        }
-
-        .list-item {
-            color: #666666;
-        }
-
-        .post {
-            color: #444;
-        }
-
-        .post-time {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            font-size: 11px;
-            color: #888;
-        }
-
-        .post-profile-image {
-            display: inline-block;
-            vertical-align: top;
-            width: 48px;
-            height: 48px;
-            margin-right: 10px;
-        }
-        .post-options {
-            position: absolute;
-            font-size: 16px;
-            right: 5px;
-            bottom: 5px;
-            color: #888;
-        }
-    </style>
+    <!-- css -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic|Sorts+Mill+Goudy' rel='stylesheet' type='text/css'>
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
 
     <!-- ionic/angularjs scripts -->
     <script src="js/ionic.js"></script>
@@ -108,55 +21,49 @@
     <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
     <script src="js/ionic-angular.js"></script>
 
-    <script>
-        angular.module('listExample', ['ionic'])
-
-                .config(function($stateProvider, $urlRouterProvider) {
-
-                    // Set up the initial routes that our app will respond to.
-                    // These are then tied up to our nav router which animates and
-                    // updates a navigation bar
-                    $stateProvider
-                    // if none of the above routes are met, use this fallback
-                    $urlRouterProvider.otherwise('/');
-                });
-    </script>
+    <script src="js/app.js"></script>
 
 </head>
-<body ng-app="listExample" animation="slide-left-right-ios7">
+<body ng-app="app" animation="slide-left-right-ios7">
 
 <side-menus>
     <pane side-menu-content>
-        <header class="bar bar-header bar-dark">
+        <header class="bar bar-header bar-calm">
             <h1 class="title">carmo.io</h1>
             <button class="button button-icon" ng-click="sideMenuController.toggleRight()"><i class="icon ion-ios7-gear"></i></button>
         </header>
         <div class="content has-header">
-            <div class="list card">
+            <div class="list" ng-controller="page1">
 
-                <a href="#" class="item item-icon-left">
-                    <i class="icon ion-model-s"></i>
+                <a href="#" ng-click="not_supported()" class="item item-icon-left item-icon-right">
+                    <i class="icon ion-checkmark"></i>
                     Véhicules sélectionnés
+                    <span class="badge badge-assertive">0</span>
+                    <i class="icon ion-chevron-right"></i>
                 </a>
 
-                <a href="#" class="item item-icon-left">
+                <a href="#" ng-click="not_supported()"  class="item item-icon-left item-icon-right">
                     <i class="icon ion-ios7-telephone"></i>
-                    Nom et coordonnés du Client Nom
+                    Nom et coordonnés du Client
+                    <i class="icon ion-compose"></i>
                 </a>
 
-                <a href="#" class="item item-icon-left">
-                    <i class="icon ion-code-working"></i>
+                <a href="#" ng-click="not_supported()"  class="item item-icon-left item-icon-right">
+                    <i class="icon ion-arrow-swap"></i>
                     Véhicule d'échange du client
+                    <i class="icon ion-chevron-right"></i>
                 </a>
 
-                <a href="#" class="item item-icon-left">
+                <a href="#" ng-click="not_supported()"  class="item item-icon-left item-icon-right">
                     <i class="icon ion-pricetag"></i>
                     Prix et Financement du Véhicule choisi
+                    <i class="icon ion-chevron-right"></i>
                 </a>
 
-                <a href="#" class="item item-icon-left">
+                <a href="#" ng-click="not_supported()"  class="item item-icon-left item-icon-right">
                     <i class="icon ion-ios7-cart"></i>
                     Finaliser la transaction
+                    <i class="icon ion-chevron-right"></i>
                 </a>
 
             </div>
@@ -177,12 +84,12 @@
         </div>
     </pane>
     <side-menu side="right">
-        <header class="bar bar-header bar-assertive">
+        <header class="bar bar-header bar-energized">
             <h1 class="title">Paramètres</h1>
         </header>
         <content has-header="true">
             <ul class="list" ng-init="list=[{text:'profile',icon:'ion-person'}]">
-                <a href="#" class="item" ng-repeat="item in list" >
+                <a href="#" ng-click="not_supported()"  class="item" ng-repeat="item in list" >
                     <i class="icon {{item.icon}}"></i>
                     {{item.text}}
                 </a>

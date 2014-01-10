@@ -1,102 +1,49 @@
-angular.module('todo', ['ionic'])
-/**
- * The Projects factory handles saving and loading projects
- * from local storage, and also lets us save and load the
- * last active project index.
- */
-.factory('Projects', function() {
-  return {
-    all: function() {
-      var projectString = window.localStorage['projects'];
-      if(projectString) {
-        return angular.fromJson(projectString);
-      }
-      return [];
-    },
-    save: function(projects) {
-      window.localStorage['projects'] = angular.toJson(projects);
-    },
-    newProject: function(projectTitle) {
-      // Add a new project
-      return {
-        title: projectTitle,
-        tasks: []
-      };
-    },
-    getLastActiveIndex: function() {
-      return parseInt(window.localStorage['lastActiveProject']) || 0;
-    },
-    setLastActiveIndex: function(index) {
-      window.localStorage['lastActiveProject'] = index;
-    }
-  }
-})
+angular.module('app', ['ionic'])
 
-.controller('TodoCtrl', function($scope, $timeout, Modal, Projects) {
+  .config(function($stateProvider, $urlRouterProvider) {
 
-  // A utility function for creating a new project
-  // with the given projectTitle
-  var createProject = function(projectTitle) {
-    var newProject = Projects.newProject(projectTitle);
-    $scope.projects.push(newProject);
-    Projects.save($scope.projects);
-    $scope.selectProject(newProject, $scope.projects.length-1);
-  }
+    // Set up the initial routes that our app will respond to.
+    // These are then tied up to our nav router which animates and
+    // updates a navigation bar
+    $stateProvider
+    // if none of the above routes are met, use this fallback
+    $urlRouterProvider.otherwise('/');
+  })
+  .controller('page1', function($scope, $timeout, Modal, ActionSheet) {
+    // Triggered on a button click, or some other target
+    $scope.not_supported = function() {
 
+      // Show the action sheet
+      ActionSheet.show({
 
-  // Load or initialize projects
-  $scope.projects = Projects.all();
+        // The various non-destructive button choices
+        buttons: [
+        ],
 
-  // Grab the last active, or the first project
-  $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
+        // The title text at the top
+        titleText: 'Not supported yet',
 
-  // Called to create a new project
-  $scope.newProject = function() {
-    var projectTitle = prompt('Project name');
-    if(projectTitle) {
-      createProject(projectTitle);
-    }
-  };
+        // The text of the cancel button
+        cancelText: 'Cancel',
 
-  // Called to select the given project
-  $scope.selectProject = function(project, index) {
-    $scope.activeProject = project;
-    Projects.setLastActiveIndex(index);
-    $scope.sideMenuController.close();
-  };
+        // Called when the sheet is cancelled, either from triggering the
+        // cancel button, or tapping the backdrop, or using escape on the keyboard
+        cancel: function() {
+        },
 
-  // Create our modal
-  Modal.fromTemplateUrl('new-task.html', function(modal) {
-    $scope.taskModal = modal;
-  }, {
-    scope: $scope
-  });
+        // Called when one of the non-destructive buttons is clicked, with
+        // the index of the button that was clicked. Return
+        // "true" to tell the action sheet to close. Return false to not close.
+        buttonClicked: function(index) {
+          return true;
+        },
 
-  $scope.createTask = function(task) {
-    if(!$scope.activeProject) {
-      return;
-    }
-    $scope.activeProject.tasks.push({
-      title: task.title
-    });
-    $scope.taskModal.hide();
-
-    // Inefficient, but save all the projects
-    Projects.save($scope.projects);
-
-    task.title = "";
-  };
-
-  $scope.newTask = function() {
-    $scope.taskModal.show();
-  };
-
-  $scope.closeNewTask = function() {
-    $scope.taskModal.hide();
-  }
-
-  $scope.toggleProjects = function() {
-    $scope.sideMenuController.toggleLeft();
-  };
-
-});
+        // Called when the destructive button is clicked. Return true to close the
+        // action sheet. False to keep it open
+        destructiveButtonClicked: function() {
+          return true;
+        }
+      });
+    };
+  })
+;
