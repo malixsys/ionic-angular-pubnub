@@ -3,3 +3,6 @@
 
 .action-sheet-title {
   font-size: 24px; }
+
+a[ng-click] {
+  cursor: hand; }
