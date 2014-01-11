@@ -78,7 +78,7 @@ angular.module('app', ['ionic'])
         }
       })
       .state('tabs.autodetail', {
-        url: "/:id",
+        url: "/auto/:id",
         views: {
           'auto-ui-view': {
             templateUrl: "auto-detail.html",
@@ -90,7 +90,8 @@ angular.module('app', ['ionic'])
         url: "/about",
         views: {
           'about-ui-view': {
-            templateUrl: "about.html"
+            templateUrl: "about.html" ,
+            controller: 'AboutCtrl'
           }
         }
       });
@@ -109,10 +110,16 @@ angular.module('app', ['ionic'])
   })
 
   .factory('Autos', function($http){
-    var url = "http://malix.com:5000/autos";
+    var url = "http://malix.com:5000";
     return {
+      about: function(callback) {
+        $http.get(url + '/about?' + (new Date()).getTime())
+          .then(function(results) {
+            callback(results.data);
+          });
+      },
       list: function(callback) {
-        $http.get(url)
+        $http.get(url + '/autos')
           .then(function(results) {
             callback(results.data);
           });
@@ -165,7 +172,7 @@ angular.module('app', ['ionic'])
 
     $scope.leftButtons = [
       {
-        content: '',
+        content: ' Back to List',
         type: 'button button-clear icon ion-ios7-arrow-back',
         tap: function(e) {
           $state.go('tabs.autolist');
@@ -184,14 +191,17 @@ angular.module('app', ['ionic'])
 
   })
 
-  .controller('TabsCtrl', function($scope) {
+  .controller('AboutCtrl', function($scope, Autos) {
+    Autos.about(function(results){
+      $scope.info = results;
+    });
   })
 
   .controller('AutoAddCtrl', function($scope) {
     $scope.newAutoData = "AutoAddCtrl Data";
   })
 
-  .controller('AppCtrl', function($scope, $state, $http) {
+  .controller('AppCtrl', function($scope, $state) {
 
   });
 

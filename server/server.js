@@ -43,6 +43,8 @@ if ('development' === app.get('env')) {
 
 app.get('/autos', auto.list);
 
+app.get('/about' , auto.about);
+
 var server = http.createServer(app);
 
 module.exports = server;
