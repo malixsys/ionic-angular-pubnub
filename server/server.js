@@ -4,8 +4,7 @@
  */
 
 var express = require('express'),
-  routes = require('./routes'),
-  user = require('./routes/user'),
+  auto = require('./routes/autos'),
   http = require('http'),
   path = require('path'),
   fs = require('fs')
@@ -37,8 +36,7 @@ if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/autos', auto.list);
 
 var server = http.createServer(app);
 
@@ -51,6 +49,8 @@ server.use = function () {
 var path = require('path');
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
-app.listen(9999, '0.0.0.0', 511, function(){
-  console.log('Listening on port 9999...')
+var PORT = 5000;
+var MAX_CONNS = 511;
+app.listen(PORT, '0.0.0.0', MAX_CONNS, function(){
+  console.log('Listening on port ' + PORT + '...')
 })

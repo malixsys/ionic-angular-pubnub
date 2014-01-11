@@ -1,215 +1,204 @@
 <html data-ng-app="app">
 <head>
-    <meta charset="utf-8">
-    <title>Profile</title>
+  <meta charset="utf-8">
+  <title>Profile</title>
 
-    <!-- Sets initial viewport load and disables zooming  -->
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Sets initial viewport load and disables zooming  -->
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <!-- css -->
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic|Sorts+Mill+Goudy' rel='stylesheet'
-          type='text/css'>
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
+  <!-- css -->
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic|Sorts+Mill+Goudy' rel='stylesheet'
+        type='text/css'>
+  <link href="css/base.css" rel="stylesheet">
+  <link href="css/app.css" rel="stylesheet">
 
-    <!-- ionic/angularjs scripts -->
-    <script src="js/ionic.js"></script>
-    <script src="http://code.angularjs.org/1.2.7/angular.js"></script>
-    <script src="http://code.angularjs.org/1.2.7/angular-animate.js"></script>
-    <script src="http://code.angularjs.org/1.2.7/angular-route.js"></script>
-    <script src="http://code.angularjs.org/1.2.7/angular-touch.js"></script>
-    <script src="http://code.angularjs.org/1.2.7/angular-sanitize.js"></script>
-    <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
-    <script src="js/ionic-angular.js"></script>
+  <!-- ionic/angularjs scripts -->
+  <script src="js/ionic.js"></script>
+  <script src="http://code.angularjs.org/1.2.7/angular.js"></script>
+  <script src="http://code.angularjs.org/1.2.7/angular-animate.js"></script>
+  <!--<script src="http://code.angularjs.org/1.2.7/angular-route.js"></script>-->
+  <script src="http://code.angularjs.org/1.2.7/angular-touch.js"></script>
+  <script src="http://code.angularjs.org/1.2.7/angular-sanitize.js"></script>
+  <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
+  <script src="js/ionic-angular.js"></script>
 
-    <script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 
 </head>
 <body>
 
 <div ng-controller="AppCtrl">
-    <pane nav-router animation="slide-left-right">
-        <nav-bar animation="nav-title-slide-ios7"
-                 type="bar-calm"
-                 back-button-type="button-icon"
-                 back-button-icon="ion-arrow-left-c"></nav-bar>
-        <nav-view animation="slide-left-right"></nav-view>
+  <side-menus>
+    <pane side-menu-content nav-router animation="slide-left-right">
+      <nav-bar animation="nav-title-slide-ios7"
+               type="bar-calm"
+               back-button-type="button-icon"
+               back-button-icon="ion-arrow-left-c"></nav-bar>
+      <nav-view animation="slide-left-right"></nav-view>
     </pane>
+    <side-menu side="right">
+      <header class="bar bar-header bar-energized">
+        <h1 class="title">Settings</h1>
+      </header>
+      <content has-header="true">
+        <ul class="list" ng-init="list=[{text:'profile',icon:'ion-person'}]">
+          <a href="#" class="item" ng-repeat="item in list">
+            <i class="icon {{item.icon}}"></i>
+            {{item.text}}
+          </a>
+        </ul>
+      </content>
+    </side-menu>
+  </side-menus>
 </div>
 
 <script id="sign-in.html" type="text/ng-template">
-    <view title="'Sign-In'">
-        <content has-header="true">
-            <div class="list">
-                <div class="item item-divider">
-                    Enter your info:
-                </div>
-                <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" ng-model="user.username">
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Password</span>
-                    <input type="password" ng-model="user.password">
-                </label>
-            </div>
-            <div class="padding">
-                <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="signIn(user)">
-                    Sign-In
-                </button>
-            </div>
-        </content>
-        <div class="tabs tabs-icon-top tabs-dark">
-            <a class="tab-item" href="#/sign-in">
-                <i class="icon ion-log-in"></i>
-                Sign-in
-            </a>
-            <a class="tab-item" href="#/forgot-password">
-                <i class="icon ion-help"></i>
-                Forgot password
-            </a>
-            <a class="tab-item" href="#/contact">
-                <i class="icon ion-at"></i>
-                Contact
-            </a>
+  <view title="'Sign-In'">
+    <content has-header="true">
+      <div class="list">
+        <div class="item item-divider">
+          Enter your info:
         </div>
-    </view>
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="user.username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="user.password">
+        </label>
+      </div>
+      <div class="padding">
+        <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="signIn(user)">
+          Sign-In
+        </button>
+      </div>
+    </content>
+    <div class="tabs tabs-icon-top tabs-dark">
+      <a class="tab-item" href="#/sign-in">
+        <i class="icon ion-log-in"></i>
+        Sign-in
+      </a>
+      <a class="tab-item" href="#/forgot-password">
+        <i class="icon ion-help"></i>
+        Forgot password
+      </a>
+      <a class="tab-item" href="#/contact">
+        <i class="icon ion-at"></i>
+        Contact
+      </a>
+    </div>
+  </view>
 </script>
 
 <script id="forgot-password.html" type="text/ng-template">
-    <view title="'Forgot Password'">
-        <content has-header="true" padding="true">
-            <p>Seriously!? Again?!</p>
-            <p>How about I just give you a password, hows this: <br><code>{{password}}</code></p>
-        </content>
-        <div class="tabs tabs-icon-top tabs-dark">
-            <a class="tab-item" href="#/sign-in">
-                <i class="icon ion-log-in"></i>
-                Sign-in
-            </a>
-            <a class="tab-item" href="#/forgot-password">
-                <i class="icon ion-help"></i>
-                Forgot password
-            </a>
-            <a class="tab-item" href="#/contact">
-                <i class="icon ion-at"></i>
-                Contact
-            </a>
-        </div>
-    </view>
+  <view title="'Forgot Password'">
+    <content has-header="true" padding="true">
+      <p>Seriously!? Again?!</p>
+
+      <p>How about I just give you a password, hows this: <br><code>{{password}}</code></p>
+    </content>
+    <div class="tabs tabs-icon-top tabs-dark">
+      <a class="tab-item" href="#/sign-in">
+        <i class="icon ion-log-in"></i>
+        Sign-in
+      </a>
+      <a class="tab-item" href="#/forgot-password">
+        <i class="icon ion-help"></i>
+        Forgot password
+      </a>
+      <a class="tab-item" href="#/contact">
+        <i class="icon ion-at"></i>
+        Contact
+      </a>
+    </div>
+  </view>
 </script>
 
 <script id="contact.html" type="text/ng-template">
-    <view title="'Contact'">
-        <content has-header="true" padding="true">
-            <div class="list">
+  <view title="'Contact'">
+    <content has-header="true" padding="true">
+      <div class="list">
 
-                <div class="item item-divider">
-                    Contact Us...
-                </div>
-
-                <a class="item item-icon-right item" href="tel:+15145153469">
-                    Call
-                    <i class="icon ion-ios7-telephone"></i>
-                </a>
-
-                <a class="item item-icon-right" href="mailto:consulting@malix.com">
-                    Email
-                    <i class="icon ion-email"></i>
-                </a>
-            </div>
-        </content>
-        <div class="tabs tabs-icon-top tabs-dark">
-            <a class="tab-item" href="#/sign-in">
-                <i class="icon ion-log-in"></i>
-                Sign-in
-            </a>
-            <a class="tab-item" href="#/forgot-password">
-                <i class="icon ion-help"></i>
-                Forgot password
-            </a>
-            <a class="tab-item" href="#/contact">
-                <i class="icon ion-at"></i>
-                Contact
-            </a>
+        <div class="item item-divider">
+          Contact Us...
         </div>
-    </view>
+
+        <a class="item item-icon-right item" href="tel:+15145153469">
+          Call
+          <i class="icon ion-ios7-telephone"></i>
+        </a>
+
+        <a class="item item-icon-right" href="mailto:consulting@malix.com">
+          Email
+          <i class="icon ion-email"></i>
+        </a>
+      </div>
+    </content>
+    <div class="tabs tabs-icon-top tabs-dark">
+      <a class="tab-item" href="#/sign-in">
+        <i class="icon ion-log-in"></i>
+        Sign-in
+      </a>
+      <a class="tab-item" href="#/forgot-password">
+        <i class="icon ion-help"></i>
+        Forgot password
+      </a>
+      <a class="tab-item" href="#/contact">
+        <i class="icon ion-at"></i>
+        Contact
+      </a>
+    </div>
+  </view>
 </script>
 
 <script id="auto-list.html" type="text/ng-template">
-    <view title="'Auto List'" right-buttons="rightButtons">
-        <content has-header="true" has-tabs="true">
-            <list>
-                <item ng-repeat="auto in autos" ng-href="#/tabs/autos/{{ $index }}">
-                    {{ auto.year }} {{ auto.make }} {{ auto.model }}
-                </item>
-            </list>
-            <div class="row">
-                <div class="col col-33 col-offset-67">
-                    <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="testStateGo()">
-                        Direct to Shelby!
-                    </button>
-                </div>
-            </div>
-        </content>
-    </view>
-</script>
-
-<script id="auto-detail.html" type="text/ng-template">
-    <view title="'Auto Details'">
-        <content has-header="true" has-tabs="true" padding="true">
-            <h2>{{ auto.year }} {{ auto.make }} {{ auto.model }}</h2>
-            <p ng-bind="auto.desc"></p>
-            <p><a class="button" ng-href="{{ auto.url }}">Read More</a></p>
-            <ul>
-                <li>
-                    <a ng-href="#/tabs/autos/0" class="ng-binding" href="#/tabs/autos/0">1936 Cord 810</a>
-                </li><li>
-                <a ng-href="#/tabs/autos/1" class="ng-binding" href="#/tabs/autos/1">1981 DeLorean DMC-12</a>
-            </li><li>
-                <a ng-href="#/tabs/autos/2" class="ng-binding" href="#/tabs/autos/2">1933 Duesenberg Model SJ</a>
-            </li><li>
-                <a ng-href="#/tabs/autos/3" class="ng-binding" href="#/tabs/autos/3">1951 Hudson Hornet</a>
-            </li><li>
-                <a ng-href="#/tabs/autos/4" class="ng-binding" href="#/tabs/autos/4">1965 Shelby Cobra</a>
-            </li><li>
-                <a ng-href="#/tabs/autos/5" class="ng-binding" href="#/tabs/autos/5">2008 Tesla Roadster</a>
-            </li><li>
-                <a ng-href="#/tabs/autos/6" class="ng-binding" href="#/tabs/autos/6">1948 Tucker 48</a>
-            </li>
-            </ul>
-        </content>
-    </view>
+  <view title="'Auto List'" right-buttons="rightButtons">
+    <content has-header="true" has-tabs="true">
+      <list>
+        <item ng-repeat="auto in autos" ng-href="#/tabs/autos/{{ $index }}">
+          {{ auto.year }} {{ auto.make }} {{ auto.model }}
+        </item>
+      </list>
+      <div class="row">
+        <div class="col col-33 col-offset-67">
+          <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="testStateGo()">
+            Direct to Shelby!
+          </button>
+        </div>
+      </div>
+    </content>
+  </view>
 </script>
 
 <script id="add-auto.html" type="text/ng-template">
-    <view title="'Add Auto'">
-        <content has-header="true" has-tabs="true">
+  <view title="'Add Auto'">
+    <content has-header="true" has-tabs="true">
 
-            <div class="list">
-                <label class="item item-input">
-                    <input type="text" placeholder="Make">
-                </label>
-                <label class="item item-input">
-                    <input type="text" placeholder="Model">
-                </label>
-                <label class="item item-input">
-                    <input type="text" placeholder="Year">
-                </label>
-                <label class="item item-input">
-                    <textarea placeholder="Description"></textarea>
-                </label>
-            </div>
-        </content>
-    </view>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Make">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Model">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Year">
+        </label>
+        <label class="item item-input">
+          <textarea placeholder="Description"></textarea>
+        </label>
+      </div>
+    </content>
+  </view>
 </script>
 
 <script id="about.html" type="text/ng-template">
-    <view title="'About'">
-        <content has-header="true" has-tabs="true" padding="true">
-            <h3>About this app!</h3>
-        </content>
-    </view>
+  <view title="'About'">
+    <content has-header="true" has-tabs="true" padding="true">
+      <h3>About this app!</h3>
+    </content>
+  </view>
 </script>
 
 <script src="//localhost:35729/livereload.js"></script>

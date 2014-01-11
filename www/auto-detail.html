@@ -1,0 +1,35 @@
+<view title="'Auto Details'">
+  <content has-header="true" has-tabs="true" padding="true">
+    <h2>{{ auto.year }} {{ auto.make }} {{ auto.model }}</h2>
+
+    <p ng-bind="auto.desc"></p>
+
+    <p><a class="button icon-right" target="_blank" ng-href="{{ auto.url }}">
+      Read More
+      <i class="icon ion-ios7-redo"></i>
+    </a></p>
+    <ul>
+      <li>
+        <a ng-href="#/tabs/autos/0" class="ng-binding" href="#/tabs/autos/0">1936 Cord 810</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/1" class="ng-binding" href="#/tabs/autos/1">1981 DeLorean DMC-12</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/2" class="ng-binding" href="#/tabs/autos/2">1933 Duesenberg Model SJ</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/3" class="ng-binding" href="#/tabs/autos/3">1951 Hudson Hornet</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/4" class="ng-binding" href="#/tabs/autos/4">1965 Shelby Cobra</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/5" class="ng-binding" href="#/tabs/autos/5">2008 Tesla Roadster</a>
+      </li>
+      <li>
+        <a ng-href="#/tabs/autos/6" class="ng-binding" href="#/tabs/autos/6">1948 Tucker 48</a>
+      </li>
+    </ul>
+  </content>
+</view>
