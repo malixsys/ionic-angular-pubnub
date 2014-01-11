@@ -1,4 +1,6 @@
+// variables
 $base-background-color:          #868586;
+
 
 .content {
   background-color: $base-background-color;
@@ -7,6 +9,6 @@ $base-background-color:          #868586;
 .action-sheet-title {
   font-size: 24px;
 }
-a[ng-click] {
+a[ng-click], a[ng-href] {
   cursor:hand;
 }

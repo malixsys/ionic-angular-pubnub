@@ -4,5 +4,5 @@
 .action-sheet-title {
   font-size: 24px; }
 
-a[ng-click] {
+a[ng-click], a[ng-href] {
   cursor: hand; }

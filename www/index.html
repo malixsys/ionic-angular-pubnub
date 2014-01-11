@@ -32,8 +32,7 @@
     <pane side-menu-content nav-router animation="slide-left-right">
       <nav-bar animation="nav-title-slide-ios7"
                type="bar-calm"
-               back-button-type="button-icon"
-               back-button-icon="ion-arrow-left-c"></nav-bar>
+               ></nav-bar>
       <nav-view animation="slide-left-right"></nav-view>
     </pane>
     <side-menu side="right">
@@ -149,47 +148,6 @@
         Contact
       </a>
     </div>
-  </view>
-</script>
-
-<script id="auto-list.html" type="text/ng-template">
-  <view title="'Auto List'" right-buttons="rightButtons">
-    <content has-header="true" has-tabs="true">
-      <list>
-        <item ng-repeat="auto in autos" ng-href="#/tabs/autos/{{ $index }}">
-          {{ auto.year }} {{ auto.make }} {{ auto.model }}
-        </item>
-      </list>
-      <div class="row">
-        <div class="col col-33 col-offset-67">
-          <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="testStateGo()">
-            Direct to Shelby!
-          </button>
-        </div>
-      </div>
-    </content>
-  </view>
-</script>
-
-<script id="add-auto.html" type="text/ng-template">
-  <view title="'Add Auto'">
-    <content has-header="true" has-tabs="true">
-
-      <div class="list">
-        <label class="item item-input">
-          <input type="text" placeholder="Make">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Model">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Year">
-        </label>
-        <label class="item item-input">
-          <textarea placeholder="Description"></textarea>
-        </label>
-      </div>
-    </content>
   </view>
 </script>
 

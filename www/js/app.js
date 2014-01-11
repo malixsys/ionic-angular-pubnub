@@ -55,12 +55,12 @@ angular.module('app', ['ionic'])
         templateUrl: "contact.html"
       })
       .state('tabs', {
-        url: "/tabs",
+        url: "/autos",
         abstract: true,
         templateUrl: "tabs.html"
       })
       .state('tabs.autolist', {
-        url: "/autos",
+        url: "/list",
         views: {
           'auto-ui-view': {
             templateUrl: "auto-list.html",
@@ -69,7 +69,7 @@ angular.module('app', ['ionic'])
         }
       })
       .state('tabs.addauto', {
-        url: "/add-auto",
+        url: "/add",
         views: {
           'add-autos-ui-view': {
             templateUrl: "add-auto.html",
@@ -78,7 +78,7 @@ angular.module('app', ['ionic'])
         }
       })
       .state('tabs.autodetail', {
-        url: "/autos/:id",
+        url: "/:id",
         views: {
           'auto-ui-view': {
             templateUrl: "auto-detail.html",
@@ -115,27 +115,55 @@ angular.module('app', ['ionic'])
 
   .controller('AutoListCtrl', function($scope, $state) {
     $scope.autoListData = "AutoListCtrl Data";
+    $scope.hideBackButton = true;
+
+    $scope.testStateGo = function() {
+      var toParams = { id: 4 };
+      $state.go('tabs.autodetail', toParams);
+    };
+
+    $scope.leftButtons = [];
 
     $scope.rightButtons = [
       { content: '',
         type: 'button button-clear icon ion-gear-a',
-        tap: function(){
+        tap: function() {
           console.log($scope);
           $scope.sideMenuController.toggleRight();
         }
       }
     ];
 
-    $scope.testStateGo = function() {
-      var toParams = { id: 4 };
-      $state.go('tabs.autodetail', toParams);
-    };
   })
 
   .controller('AutoDetailCtrl', function($scope, $state, $stateParams) {
     $scope.autoDetailData = "AutoDetailCtrl Data";
+    $scope.hideBackButton = true;
 
     $scope.auto = $scope.autos[$stateParams.id];
+
+    $scope.leftButtons = [
+      {
+        content: '',
+        type: 'button button-clear icon ion-ios7-arrow-back',
+        tap: function(e) {
+          $state.go('tabs.autolist');
+        }}
+    ];
+
+    $scope.rightButtons = [
+      { content: '',
+        type: 'button button-clear icon ion-gear-a',
+        tap: function() {
+          console.log($scope);
+          $scope.sideMenuController.toggleRight();
+        }
+      }
+    ];
+
+  })
+
+  .controller('TabsCtrl', function($scope) {
   })
 
   .controller('AutoAddCtrl', function($scope) {
