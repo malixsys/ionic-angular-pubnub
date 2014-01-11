@@ -108,19 +108,37 @@ angular.module('app', ['ionic'])
     };
   })
 
+  .factory('Autos', function($http){
+    var url = "http://malix.com:5000/autos";
+    return {
+      list: function(callback) {
+        $http.get(url)
+          .then(function(results) {
+            callback(results.data);
+          });
+      }
+    }
+  })
+
   .controller('ForgotPasswordCtrl', function($scope, $state) {
     //console.log('ForgotPasswordCtrl');
     $scope.password = Math.round(Math.random() * 10000);
   })
 
-  .controller('AutoListCtrl', function($scope, $state) {
+  .controller('AutoListCtrl', function($scope, $state, Autos) {
+
+    Autos.list(function(autos){
+      $scope.autos = autos;
+    });
+
     $scope.autoListData = "AutoListCtrl Data";
-    $scope.hideBackButton = true;
 
     $scope.testStateGo = function() {
       var toParams = { id: 4 };
       $state.go('tabs.autodetail', toParams);
     };
+
+    $scope.hideBackButton = true;
 
     $scope.leftButtons = [];
 
@@ -136,11 +154,14 @@ angular.module('app', ['ionic'])
 
   })
 
-  .controller('AutoDetailCtrl', function($scope, $state, $stateParams) {
+  .controller('AutoDetailCtrl', function($scope, $state, $stateParams, Autos) {
     $scope.autoDetailData = "AutoDetailCtrl Data";
-    $scope.hideBackButton = true;
 
-    $scope.auto = $scope.autos[$stateParams.id];
+    Autos.list(function(autos){
+      $scope.auto = autos[$stateParams.id];
+    });
+
+    $scope.hideBackButton = true;
 
     $scope.leftButtons = [
       {
@@ -172,12 +193,6 @@ angular.module('app', ['ionic'])
 
   .controller('AppCtrl', function($scope, $state, $http) {
 
-    var url = "http://malix.com:5000/autos";
-
-    $http.get(url)
-      .then(function(results) {
-        $scope.autos = results.data;
-      });
   });
 
 
