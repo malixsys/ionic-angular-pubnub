@@ -170,8 +170,8 @@ angular.module('app', ['ionic','ngAnimate'])
 
     $scope.autoListData = "AutoListCtrl Data";
 
-    $scope.testStateGo = function() {
-      var toParams = { id: 4 };
+    $scope.stateGo = function(id) {
+      var toParams = { id: id };
       $state.go('tabs.autodetail', toParams);
     };
 

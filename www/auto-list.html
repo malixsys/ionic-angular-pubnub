@@ -1,10 +1,10 @@
 <view title="'Auto List'" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
     <content has-header="true" has-tabs="true">
       <list>
-        <item ng-repeat="auto in autos" ui-sref="tabs.autodetail({id: $index })">
+        <item ng-repeat="auto in autos" ng-click="stateGo($index)">
           {{ auto.year }} {{ auto.make }} {{ auto.model }}
         </item>
-        <item ng-click="testStateGo()">
+        <item ng-click="stateGo(4)">
           Shelby!!
         </item>
       </list>
