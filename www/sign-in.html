@@ -1,0 +1,36 @@
+<view title="'Sign-In'" hide-back-button="true">
+  <content has-header="true">
+    <div class="list">
+      <div class="item item-divider">
+        Enter your info:
+      </div>
+      <label class="item item-input">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="user.username">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="user.password">
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="signIn(user)">
+        Sign-In
+      </button>
+    </div>
+  </content>
+  <div class="tabs tabs-icon-top tabs-dark">
+    <a class="tab-item" href="#/sign-in">
+      <i class="icon ion-log-in"></i>
+      Sign-in
+    </a>
+    <a class="tab-item" href="#/forgot-password">
+      <i class="icon ion-help"></i>
+      Forgot password
+    </a>
+    <a class="tab-item" href="#/contact">
+      <i class="icon ion-at"></i>
+      Contact
+    </a>
+  </div>
+</view>

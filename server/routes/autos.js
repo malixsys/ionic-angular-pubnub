@@ -1,7 +1,9 @@
 exports = module.exports = {
   about: function(req, res) {
+    var path = require('path');
     res.json({
-      time: new Date()
+      time: new Date(),
+      package: require(path.join(__dirname,'..','..','package.json'))
     });
   },
   list: function(req, res) {

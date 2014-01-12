@@ -1,5 +1,5 @@
 <view title="'Auto Details'" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
-  <content has-header="true" has-tabs="true" padding="true">
+  <content has-header="true" has-tabs="true" padding="true" swipe-nav-item="{left: getNavFunction(+ 1), right: getNavFunction(-1)}">
     <h2>{{ auto.year }} {{ auto.make }} {{ auto.model }}</h2>
 
     <p ng-bind="auto.desc"></p>

@@ -16,7 +16,7 @@
   <script src="js/ionic.js"></script>
   <script src="http://code.angularjs.org/1.2.7/angular.js"></script>
   <script src="http://code.angularjs.org/1.2.7/angular-animate.js"></script>
-  <!--<script src="http://code.angularjs.org/1.2.7/angular-route.js"></script>-->
+  <script src="http://code.angularjs.org/1.2.7/angular-resource.js"></script>
   <script src="http://code.angularjs.org/1.2.7/angular-touch.js"></script>
   <script src="http://code.angularjs.org/1.2.7/angular-sanitize.js"></script>
   <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
@@ -29,7 +29,7 @@
 
 <div ng-controller="AppCtrl">
   <side-menus>
-    <pane side-menu-content nav-router animation="slide-left-right">
+    <pane side-menu-content nav-router animation="slide-left-right" drag-content="false">
       <nav-bar animation="nav-title-slide-ios7"
                type="bar-calm"
                ></nav-bar>
@@ -39,9 +39,9 @@
       <header class="bar bar-header bar-energized">
         <h1 class="title">Settings</h1>
       </header>
-      <content has-header="true">
-        <ul class="list" ng-init="list=[{text:'profile',icon:'ion-person'}]">
-          <a href="#" class="item" ng-repeat="item in list">
+      <content has-header="true" ng-controller="SettingsCtrl">
+        <ul class="list">
+          <a ng-click="item.action()" class="item" ng-repeat="item in settings">
             <i class="icon {{item.icon}}"></i>
             {{item.text}}
           </a>
@@ -50,115 +50,6 @@
     </side-menu>
   </side-menus>
 </div>
-
-<script id="sign-in.html" type="text/ng-template">
-  <view title="'Sign-In'">
-    <content has-header="true">
-      <div class="list">
-        <div class="item item-divider">
-          Enter your info:
-        </div>
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="user.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="user.password">
-        </label>
-      </div>
-      <div class="padding">
-        <button class="button icon-right ion-chevron-right button-block button-energized" ng-click="signIn(user)">
-          Sign-In
-        </button>
-      </div>
-    </content>
-    <div class="tabs tabs-icon-top tabs-dark">
-      <a class="tab-item" href="#/sign-in">
-        <i class="icon ion-log-in"></i>
-        Sign-in
-      </a>
-      <a class="tab-item" href="#/forgot-password">
-        <i class="icon ion-help"></i>
-        Forgot password
-      </a>
-      <a class="tab-item" href="#/contact">
-        <i class="icon ion-at"></i>
-        Contact
-      </a>
-    </div>
-  </view>
-</script>
-
-<script id="forgot-password.html" type="text/ng-template">
-  <view title="'Forgot Password'">
-    <content has-header="true" padding="true">
-      <p>Seriously!? Again?!</p>
-
-      <p>How about I just give you a password, hows this: <br><code>{{password}}</code></p>
-    </content>
-    <div class="tabs tabs-icon-top tabs-dark">
-      <a class="tab-item" href="#/sign-in">
-        <i class="icon ion-log-in"></i>
-        Sign-in
-      </a>
-      <a class="tab-item" href="#/forgot-password">
-        <i class="icon ion-help"></i>
-        Forgot password
-      </a>
-      <a class="tab-item" href="#/contact">
-        <i class="icon ion-at"></i>
-        Contact
-      </a>
-    </div>
-  </view>
-</script>
-
-<script id="contact.html" type="text/ng-template">
-  <view title="'Contact'">
-    <content has-header="true" padding="true">
-      <div class="list">
-
-        <div class="item item-divider">
-          Contact Us...
-        </div>
-
-        <a class="item item-icon-right item" href="tel:+15145153469">
-          Call
-          <i class="icon ion-ios7-telephone"></i>
-        </a>
-
-        <a class="item item-icon-right" href="mailto:consulting@malix.com">
-          Email
-          <i class="icon ion-email"></i>
-        </a>
-      </div>
-    </content>
-    <div class="tabs tabs-icon-top tabs-dark">
-      <a class="tab-item" href="#/sign-in">
-        <i class="icon ion-log-in"></i>
-        Sign-in
-      </a>
-      <a class="tab-item" href="#/forgot-password">
-        <i class="icon ion-help"></i>
-        Forgot password
-      </a>
-      <a class="tab-item" href="#/contact">
-        <i class="icon ion-at"></i>
-        Contact
-      </a>
-    </div>
-  </view>
-</script>
-
-<script id="about.html" type="text/ng-template">
-  <view title="'About'">
-    <content has-header="true" has-tabs="true" padding="true">
-      <h3>About</h3>
-      <pre>{{ info }}</pre>
-    </content>
-  </view>
-</script>
 
 <script src="//localhost:35729/livereload.js"></script>
 </body>

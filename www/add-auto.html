@@ -3,17 +3,59 @@
 
     <div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Make">
+        <span class="input-label">Make</span>
+        <input type="text" placeholder="Ford">
       </label>
       <label class="item item-input">
-        <input type="text" placeholder="Model">
+        <span class="input-label">Model</span>
+        <input type="text" placeholder="Model T">
       </label>
       <label class="item item-input">
-        <input type="text" placeholder="Year">
+        <span class="input-label">Year</span>
+        <input type="number" step="1" placeholder="Year" min="1870" max="2014" value="2013" placeholder="2014">
       </label>
-      <label class="item item-input">
-        <textarea placeholder="Description"></textarea>
-      </label>
+      <div class="item item-input item-toggle">
+        <span class="input-label">New?</span>
+        <label class="toggle">
+          <input type="checkbox" checked>
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+      <ul class="list">
+        <li class="item item-input item-divider">
+          Options
+        </li>
+        <li class="item item-checkbox">
+          <label class="checkbox">
+            <input type="checkbox" checked>
+          </label>
+          Flux Capacitor
+        </li>
+        <li class="item item-checkbox">
+          <label class="checkbox">
+            <input type="checkbox" checked>
+          </label>
+          1.21 Gigawatts
+        </li>
+        <li class="item item-checkbox">
+          <label class="checkbox">
+            <input type="checkbox" checked>
+          </label>
+          88 MPH Cruise Control Setting
+        </li>
+        <li class="item item-checkbox">
+          <label class="checkbox">
+            <input type="checkbox">
+          </label>
+          Plutonium Resupply
+        </li>
+      </ul>
+      <div class="padding">
+        <button class="button button-block button-energized icon-right ion-chevron-right" ng-click="save()">Add</button>
+      </div>
+
     </div>
   </content>
 </view>

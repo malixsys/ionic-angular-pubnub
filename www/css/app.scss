@@ -1,6 +1,13 @@
 // variables
 $base-background-color:          #868586;
 
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .content {
   background-color: $base-background-color;

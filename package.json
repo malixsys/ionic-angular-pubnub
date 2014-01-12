@@ -1,8 +1,9 @@
 {
   "name": "ionic-angular-pubnub",
-  "version": "0.13.8",
+  "version": "0.1.12",
   "description": "ionic-angular-pubnub",
   "main": "server/server.js",
+  "private":true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
