@@ -140,7 +140,12 @@ angular.module('app', ['ionic','ngAnimate'])
   })
 
   .factory('Autos', function($http) {
-    var url = "http://malix.com:5000";
+    var url;
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+      url    = "http://malix.com:5000";
+    } else {
+      url    = 'http://' + (location.host || 'localhost').split(':')[0] + ':5000';
+    }
     return {
       about: function(callback) {
         $http.get(url + '/about?' + (new Date()).getTime())
