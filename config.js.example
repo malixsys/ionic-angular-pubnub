@@ -1,0 +1,8 @@
+module.exports = {
+  app:{
+    session_key: "secret_sauce"
+  },
+  pubnub:{
+    secret_key:"your_secret_key"
+  }
+}

@@ -2,7 +2,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v0.9.19
+ * Ionic, v0.9.20-alpha
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -16,7 +16,7 @@
 window.ionic = {
   controllers: {},
   views: {},
-  version: '0.9.19'
+  version: '0.9.20-alpha'
 };;
 (function(ionic) {
 
@@ -1740,7 +1740,7 @@ window.ionic = {
     detect: function() {
       var platforms = [];
 
-      this._checkPlatforms(platforms);
+      var didDetect = this._checkPlatforms(platforms);
 
       var classify = function() {
         if(!document.body) { return; }
@@ -1755,6 +1755,8 @@ window.ionic = {
       });
 
       classify();
+
+      return didDetect;
     },
     _checkPlatforms: function(platforms) {
       if(this.isCordova()) {
@@ -1769,6 +1771,12 @@ window.ionic = {
       if(this.isAndroid()) {
         platforms.push('android');
       }
+
+      // Return whether we detected anything
+      if(platforms.length === 0) {
+        return false;
+      }
+      return true;
     },
 
     // Check if we are running in Cordova, which will have

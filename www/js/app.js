@@ -1,16 +1,16 @@
-angular.module('app', ['ionic','ngAnimate'])
+angular.module('app', ['ionic', 'ngAnimate'])
 
-  .directive('swipeNavItem', function($parse, Gesture){
+  .directive('swipeNavItem', function($parse, $ionicGesture) {
     return {
       restrict: 'A',
-      link: function($scope, $element, $attr) {
+      link:     function($scope, $element, $attr) {
         var o = function(type, d) {
           var onSwipeNavItem = $parse($attr.swipeNavItem)($scope);
-          if(onSwipeNavItem != void 0) {
-            if(d[2] === "right" && typeof onSwipeNavItem.right === "function") {
+          if (onSwipeNavItem != void 0) {
+            if (d[2] === "right" && typeof onSwipeNavItem.right === "function") {
               onSwipeNavItem.right();
             }
-            else if(d[2] === "left" && typeof onSwipeNavItem.left === "function") {
+            else if (d[2] === "left" && typeof onSwipeNavItem.left === "function") {
               onSwipeNavItem.left();
             }
           }
@@ -20,41 +20,107 @@ angular.module('app', ['ionic','ngAnimate'])
           o('swipe', [e.gesture.touches[0].pageX, e.gesture.touches[0].pageY, e.gesture.direction]);
         };
 
-        var swipeGesture = Gesture.on('swipe', swipeFn, $element);
+        var swipeGesture = $ionicGesture.on('swipe', swipeFn, $element);
 
-        $scope.$on('$destroy', function () {
-          Gesture.off(swipeGesture, 'swipe', swipeFn);
+        $scope.$on('$destroy', function() {
+          $ionicGesture.off(swipeGesture, 'swipe', swipeFn);
         });
       }
     }
   })
-  .factory('Actions', function($timeout, Modal, ActionSheet) {
+  .factory('PubNub', function() {
+    var authKey = PUBNUB.uuid();
+
+    var initialize = function() {
+      var pubnub = PUBNUB.init({
+        publish_key:   'pub-c-9595c3b6-29b2-4030-9a3b-be73265fc5d6',
+        subscribe_key: 'sub-c-5fc45ee2-7716-11e3-9291-02ee2ddab7fe',
+        auth_key:      authKey,
+        origin:        'pubsub.pubnub.com',
+        ssl:           true
+      });
+      return pubnub;
+    }
+
+    var isOnline = false;
+    var onConnect = function(onOnlineStatusChanged){
+      var changed = isOnline === false;
+      isOnline = true;
+      if (typeof onOnlineStatusChanged === "function") {
+        if (changed) {
+          onOnlineStatusChanged(true);
+        }
+      }
+    };
+    var ret =
+    {
+      isOnline: function() {
+        return isOnline;
+      },
+      init:     function() {
+        this.pubnub = initialize();
+
+        return this;
+      },
+
+      onBroadcast: function(onOnlineStatusChanged) {
+        var self = this;
+        var result = self.pubnub.subscribe({
+          channel:    'broadcast',
+          callback:   function(message) {
+            console.log(message);
+          },
+          connect:    function() {
+            onConnect(onOnlineStatusChanged);
+          },
+          disconnect: function() {
+            var changed = isOnline === true;
+            isOnline = false;
+            if (typeof onOnlineStatusChanged === "function") {
+              if (changed) {
+                onOnlineStatusChanged(false);
+              }
+            }
+          },
+          reconnect:  function() {
+            onConnect(onOnlineStatusChanged);
+          },
+          restore:    true,
+          error:      function(message) {
+            console.log(message);
+          }
+        });
+      }
+    };
+    return ret;
+  })
+  .factory('Actions', function($timeout, $ionicModal, $ionicActionSheet) {
     return {
       not_supported: function(title) {
 
         // Show the action sheet
-        ActionSheet.show({
+        $ionicActionSheet.show({
 
           // The various non-destructive button choices
-          buttons: [
+          buttons:                  [
             {text: 'Not supported yet'}
           ],
 
           // The title text at the top
-          titleText: title,
+          titleText:                title,
 
           // The text of the cancel button
-          cancelText: 'Cancel',
+          cancelText:               'Cancel',
 
           // Called when the sheet is cancelled, either from triggering the
           // cancel button, or tapping the backdrop, or using escape on the keyboard
-          cancel: function() {
+          cancel:                   function() {
           },
 
           // Called when one of the non-destructive buttons is clicked, with
           // the index of the button that was clicked. Return
           // "true" to tell the action sheet to close. Return false to not close.
-          buttonClicked: function(index) {
+          buttonClicked:            function(index) {
             return true;
           },
 
@@ -71,57 +137,57 @@ angular.module('app', ['ionic','ngAnimate'])
 
     $stateProvider
       .state('signin', {
-        url: "/sign-in",
+        url:         "/sign-in",
         templateUrl: "sign-in.html",
-        controller: 'SignInCtrl'
+        controller:  'SignInCtrl'
       })
       .state('forgotpassword', {
-        url: "/forgot-password",
+        url:         "/forgot-password",
         templateUrl: "forgot-password.html",
-        controller: 'ForgotPasswordCtrl'
+        controller:  'ForgotPasswordCtrl'
       })
       .state('contact', {
-        url: "/contact",
+        url:         "/contact",
         templateUrl: "contact.html"
       })
       .state('tabs', {
-        url: "/autos",
-        abstract: true,
+        url:         "/autos",
+        abstract:    true,
         templateUrl: "tabs.html"
       })
       .state('tabs.autolist', {
-        url: "/list",
+        url:   "/list",
         views: {
           'auto-ui-view': {
             templateUrl: "auto-list.html",
-            controller: 'AutoListCtrl'
+            controller:  'AutoListCtrl'
           }
         }
       })
       .state('tabs.addauto', {
-        url: "/add",
+        url:   "/add",
         views: {
           'add-autos-ui-view': {
             templateUrl: "add-auto.html",
-            controller: 'AutoAddCtrl'
+            controller:  'AutoAddCtrl'
           }
         }
       })
       .state('tabs.autodetail', {
-        url: "/auto/:id",
+        url:   "/auto/:id",
         views: {
           'auto-ui-view': {
             templateUrl: "auto-detail.html",
-            controller: 'AutoDetailCtrl'
+            controller:  'AutoDetailCtrl'
           }
         }
       })
       .state('tabs.about', {
-        url: "/about",
+        url:   "/about",
         views: {
           'about-ui-view': {
             templateUrl: "about.html",
-            controller: 'AboutCtrl'
+            controller:  'AboutCtrl'
           }
         }
       });
@@ -142,9 +208,9 @@ angular.module('app', ['ionic','ngAnimate'])
   .factory('Autos', function($http) {
     var url;
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-      url    = "http://malix.com:5000";
+      url = "http://malix.com:5000";
     } else {
-      url    = 'http://' + (location.host || 'localhost').split(':')[0] + ':5000';
+      url = 'http://' + (location.host || 'localhost').split(':')[0] + ':5000';
     }
     return {
       about: function(callback) {
@@ -153,7 +219,7 @@ angular.module('app', ['ionic','ngAnimate'])
             callback(results.data);
           });
       },
-      list: function(callback) {
+      list:  function(callback) {
         $http.get(url + '/autos')
           .then(function(results) {
             callback(results.data);
@@ -186,9 +252,8 @@ angular.module('app', ['ionic','ngAnimate'])
 
     $scope.rightButtons = [
       { content: '',
-        type: 'button button-clear icon ion-gear-a',
-        tap: function() {
-          console.log($scope);
+        type:    'button button-clear icon ion-gear-a',
+        tap:     function() {
           $scope.sideMenuController.toggleRight();
         }
       }
@@ -217,16 +282,16 @@ angular.module('app', ['ionic','ngAnimate'])
     $scope.leftButtons = [
       {
         content: ' Back to List',
-        type: 'button button-clear icon ion-ios7-arrow-back',
-        tap: function(e) {
+        type:    'button button-clear icon ion-ios7-arrow-back',
+        tap:     function(e) {
           $state.go('tabs.autolist');
         }}
     ];
 
     $scope.rightButtons = [
       { content: '',
-        type: 'button button-clear icon ion-gear-a',
-        tap: function() {
+        type:    'button button-clear icon ion-gear-a',
+        tap:     function() {
           console.log($scope);
           $scope.sideMenuController.toggleRight();
         }
@@ -251,8 +316,8 @@ angular.module('app', ['ionic','ngAnimate'])
   .controller('SettingsCtrl', function($scope, $state, Actions) {
     $scope.settings = [
       {
-        text: 'profile',
-        icon: 'ion-person',
+        text:   'profile',
+        icon:   'ion-person',
         action: function() {
           Actions.not_supported('Profile')
         }
@@ -260,7 +325,14 @@ angular.module('app', ['ionic','ngAnimate'])
     ];
 
   })
-  .controller('AppCtrl', function($scope, $state) {
+  .controller('AppCtrl', function($scope, $state, PubNub, $ionicLoading) {
+
+    var pubnub = PubNub
+      .init()
+      .onBroadcast(function(isOnline) {
+        $scope.isOnline = isOnline;
+        console.log(isOnline);
+      });
 //    $scope.$root.$on('$stateChangeStart', function(to, toParams, from, fromParams) {
 //      console.log([from.id, fromParams]);
 //    });

@@ -7,7 +7,8 @@ lib-cov
 *.pid
 *.gz
 *.keystore
-*.config
+
+config.js
 
 pids
 logs
