@@ -106,17 +106,19 @@ exports = module.exports = function(SECRET) {
     setInterval(function() {
       pubnub.publish({
         channel: 'broadcast',
-        message: 'PING'
+        message: JSON.stringify({time:(new Date()).getTime(), type:'PING'})
       })
-    }, 10000);
+    }, 30000);
     var result = pubnub.subscribe({
       channel:    'broadcast',
       callback:   function(message) {
-        console.log(message);
+        if(message.length < 2 || message.indexOf('{') !== 0) {
+          return;
+        }
+        console.log(JSON.parse(message));
       },
       error:      function(message) {
         console.log('[PUBNUB] [ERROR] On subscribe to broadcast', message);
-        process.exit(1);
       },
       connect:    function() {
         console.log('[PUBNUB] Connected')
@@ -129,45 +131,7 @@ exports = module.exports = function(SECRET) {
       },
       restore:    true
     });
-    pubnub.here_now({
-      channel:  'broadcast',
-      callback: function(m) {
-        console.log(arguments)
-      }
-    });
   };
 
   return ret;
-//  var runMain = function() {
-//    console.log('Started');
-//
-//    var result = pubnub.subscribe({
-//      channel:    'broadcast',
-//      callback:   function(message) {
-//        console.log(message);
-//      },
-//      error:      function(message) {
-//        console.log('[PUBNUB] [ERROR] On subscribe to broadcast', message);
-//        process.exit(1);
-//      },
-//      connect:    function() {
-//        console.log('[PUBNUB] Connected')
-//      },
-//      disconnect: function() {
-//        console.log('[PUBNUB] Disconnected')
-//      },
-//      reconnect:  function() {
-//        console.log('[PUBNUB] Reconnected')
-//      },
-//      restore:    true
-//    });
-//
-//    setInterval(function() {
-//      pubnub.publish({
-//        channel: 'broadcast',
-//        message: 'PING'
-//      })
-//    }, 10000);
-//
-//  };  
 }
