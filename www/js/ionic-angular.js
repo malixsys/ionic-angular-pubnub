@@ -262,6 +262,8 @@ angular.module('ionic.service.loading', ['ionic.ui.loading'])
 
       opts = angular.extend(defaults, opts);
 
+      console.log(opts);
+
       var scope = $rootScope.$new(true);
       angular.extend(scope, opts);
 
@@ -557,7 +559,7 @@ angular.module('ionic.service.templateLoad', [])
 angular.module('ionic.service.view', ['ui.router'])
 
 
-.run(     ['$rootScope', '$state', '$location', '$document', 
+.run(     ['$rootScope', '$state', '$location', '$document',
   function( $rootScope,   $state,   $location,   $document) {
 
   // init the variables that keep track of the view history

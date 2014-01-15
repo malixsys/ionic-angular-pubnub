@@ -92,7 +92,7 @@ angular.module('app', ['ionic', 'ngAnimate'])
 
   })
 
-  .controller('SignInCtrl', function($scope, $state, $timeout, $ionicLoading, Auth, Events, Actions) {
+  .controller('SignInCtrl', function($scope, $state, $timeout, Loader, Auth, Events, Actions) {
     $scope.user = {
       username: '',
       password: ''
@@ -114,7 +114,7 @@ angular.module('app', ['ionic', 'ngAnimate'])
       }, 500);
     });
     $scope.doSignIn = function() {
-      loading = $ionicLoading.show({content: 'logging in...'});
+      loading = Loader.show({content: 'logging in...'});
       Auth.login($scope.user);
     };
   })
@@ -216,7 +216,7 @@ angular.module('app', ['ionic', 'ngAnimate'])
     ];
 
   })
-  .controller('AppCtrl', function($scope, $state, $timeout, PubNub, Events, $ionicLoading) {
+  .controller('AppCtrl', function($scope, $state, $timeout, PubNub, Events, Loader) {
     var loading = null;
     var pubnub = PubNub
       .onOnlineStatusChanged(function(isOnline) {
@@ -227,11 +227,20 @@ angular.module('app', ['ionic', 'ngAnimate'])
             loading = null;
           }
         } else {
-          loading = $ionicLoading.show({content: 'network offline detected, please reconnect to continue'});
+          loading = Loader.show({content: '<p>network offline detected</p><p>please reconnect to continue...</p>', showDelay: 100, maxWidth: 320});
         }
       });
 
+    var starting = null;
+    Events.on('presence', function(message){
+      if (starting !== null) {
+        starting.hide();
+        starting = null;
+      }
+    })
     $timeout(function() {
+      starting = Loader.show({content: 'connecting to server', showDelay: 100, maxWidth: 320});
+      sarting = null
       Events.start();
     }, 10);
 

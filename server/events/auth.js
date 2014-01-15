@@ -34,6 +34,18 @@ exports = module.exports = function(app, pubnub) {
 
     var key = message.source;
 
+    var steps = 2;
+
+    var sendResponse = function() {
+      if(steps === 0) {
+        pubnub.publish({
+          channel: message.source,
+          message: JSON.stringify(
+            {type: 'presence', success: true}
+          )
+        })
+      }
+    };
     console.log('[PUBNUB] Granting access to ' + key + ' for private channel');
     pubnub.grant({
       channel:  key,
@@ -42,6 +54,8 @@ exports = module.exports = function(app, pubnub) {
       write:    true,
       callback: function(message) {
         console.log('[PUBNUB] Successfully made grant request for access to ' + key + ' for private channel');
+        steps--;
+        sendResponse();
       },
       error:    function(message) {
         console.log('[PUBNUB] [ERROR] On grant request access to ' + key + ' for private channel', message);
@@ -55,6 +69,8 @@ exports = module.exports = function(app, pubnub) {
       write:    true,
       callback: function(message) {
         console.log('[PUBNUB] Successfully made grant request for access to ' + key + ' for private channel to self');
+        steps--;
+        sendResponse();
       },
       error:    function(message) {
         console.log('[PUBNUB] [ERROR] On grant request access to ' + key + ' for private channel to self', message);
