@@ -58,6 +58,19 @@ server.use = function () {
 var path = require('path');
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
+var loadEvents = function (pubnub) {
+  var eventsPath = path.join(__dirname, 'events');
+  fs.readdirSync(eventsPath).forEach(function (eventFile) {
+    if (eventFile.indexOf('.js')) {
+      var evt = require(path.join(eventsPath, eventFile));
+      setTimeout(function() {
+        evt(app, pubnub);
+      }, 100);
+    }
+  });
+
+};
+
 var PORT = 5000;
 var MAX_CONNS = 511;
 app.listen(PORT, '0.0.0.0', MAX_CONNS, function(){
@@ -67,10 +80,8 @@ app.listen(PORT, '0.0.0.0', MAX_CONNS, function(){
   pubnub.initialize(function(err, data){
     if(err !== null) {
       console.log('[PUBNUB] [ERROR] ', err);
-      app.pubnub = false;
       return;
     }
-    app.pubnub = data;
-    data.status();
+    loadEvents(data);
   });
 });

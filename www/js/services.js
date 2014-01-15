@@ -25,14 +25,35 @@ angular.module('app')
     };
     var ret =
     {
-      publish: function(info) {
+      uuid: authKey,
+      publish: function(channel, message) {
+        message.source = authKey;
+        info = {
+          channel: channel,
+          message: JSON.stringify(message)
+        };
         pubnub.publish(info);
+      },
+      subscribe: function(channel, callback) {
+        var result = pubnub.subscribe({
+          channel: channel,
+          callback: function(message) {
+            if (message.length < 2 || message.indexOf('{') !== 0) {
+              callback("server error");
+              return;
+            }
+            callback(null, JSON.parse(message));
+          },
+          error: function(message) {
+            callback(message);
+          }
+        });
       },
       onOnlineStatusChanged: function(callback) {
         var result = pubnub.subscribe({
           channel: 'broadcast',
           callback: function(message) {
-            if(message.length < 2 || message.indexOf('{') !== 0) {
+            if (message.length < 2 || message.indexOf('{') !== 0) {
               return;
             }
             console.log(JSON.parse(message));
@@ -63,6 +84,36 @@ angular.module('app')
   })
   .factory('Actions', function($timeout, $ionicModal, $ionicActionSheet) {
     return {
+      error: function(title) {
+
+        // Show the action sheet
+        $ionicActionSheet.show({
+
+          // The title text at the top
+          titleText: title,
+
+          // The text of the cancel button
+          cancelText: 'OK',
+
+          // Called when the sheet is cancelled, either from triggering the
+          // cancel button, or tapping the backdrop, or using escape on the keyboard
+          cancel: function() {
+          },
+
+          // Called when one of the non-destructive buttons is clicked, with
+          // the index of the button that was clicked. Return
+          // 'true' to tell the action sheet to close. Return false to not close.
+          buttonClicked: function(index) {
+            return true;
+          },
+
+          // Called when the destructive button is clicked. Return true to close the
+          // action sheet. False to keep it open
+          destructiveButtonClicked: function() {
+            return true;
+          }
+        });
+      },
       not_supported: function(title) {
 
         // Show the action sheet
@@ -122,13 +173,33 @@ angular.module('app')
       }
     }
   })
-  .factory('Auth',function(PubNub){
+  .factory('Events', function($rootScope, $timeout, PubNub) {
+    PubNub.subscribe(PubNub.uuid, function(err, message) {
+      if (err) {
+        return console.log(err, message);
+      }
+      console.log(message);
+      $rootScope.$broadcast(message.type, message);
+    });
+    return {
+      on: function(type, callback) {
+        $rootScope.$on(type, function(scope, message){
+          callback(message);
+        });
+      },
+      start: function(user) {
+        $timeout(function() {
+          PubNub.publish('authentication', {time: (new Date()).getTime(), type: 'presence'});
+        }, 100);
+      }
+    };
+  })
+  .factory('Auth', function(PubNub) {
     return {
       login: function(user) {
-        PubNub.publish({
-          channel: 'broadcast',
-          message: JSON.stringify({time:(new Date()).getTime(), type:'login', data: user})
-        })
+        setTimeout(function() {
+          PubNub.publish('authentication', {time: (new Date()).getTime(), type: 'login', data: user});
+        }, 10);
       }
     }
   })

@@ -3,7 +3,7 @@ angular.module('app', ['ionic', 'ngAnimate'])
   .directive('swipeNavItem', function($parse, $ionicGesture) {
     return {
       restrict: 'A',
-      link:     function($scope, $element, $attr) {
+      link: function($scope, $element, $attr) {
         var o = function(type, d) {
           var onSwipeNavItem = $parse($attr.swipeNavItem)($scope);
           if (onSwipeNavItem != void 0) {
@@ -32,57 +32,57 @@ angular.module('app', ['ionic', 'ngAnimate'])
 
     $stateProvider
       .state('signin', {
-        url:         '/sign-in',
+        url: '/sign-in',
         templateUrl: 'sign-in.html',
-        controller:  'SignInCtrl'
+        controller: 'SignInCtrl'
       })
       .state('forgotpassword', {
-        url:         '/forgot-password',
+        url: '/forgot-password',
         templateUrl: 'forgot-password.html',
-        controller:  'ForgotPasswordCtrl'
+        controller: 'ForgotPasswordCtrl'
       })
       .state('contact', {
-        url:         '/contact',
+        url: '/contact',
         templateUrl: 'contact.html'
       })
       .state('tabs', {
-        url:         '/autos',
-        abstract:    true,
+        url: '/autos',
+        abstract: true,
         templateUrl: 'tabs.html'
       })
       .state('tabs.autolist', {
-        url:   '/list',
+        url: '/list',
         views: {
           'auto-ui-view': {
             templateUrl: 'auto-list.html',
-            controller:  'AutoListCtrl'
+            controller: 'AutoListCtrl'
           }
         }
       })
       .state('tabs.addauto', {
-        url:   '/add',
+        url: '/add',
         views: {
           'add-autos-ui-view': {
             templateUrl: 'add-auto.html',
-            controller:  'AutoAddCtrl'
+            controller: 'AutoAddCtrl'
           }
         }
       })
       .state('tabs.autodetail', {
-        url:   '/auto/:id',
+        url: '/auto/:id',
         views: {
           'auto-ui-view': {
             templateUrl: 'auto-detail.html',
-            controller:  'AutoDetailCtrl'
+            controller: 'AutoDetailCtrl'
           }
         }
       })
       .state('tabs.about', {
-        url:   '/about',
+        url: '/about',
         views: {
           'about-ui-view': {
             templateUrl: 'about.html',
-            controller:  'AboutCtrl'
+            controller: 'AboutCtrl'
           }
         }
       });
@@ -92,15 +92,30 @@ angular.module('app', ['ionic', 'ngAnimate'])
 
   })
 
-  .controller('SignInCtrl', function($scope, $state, Auth) {
+  .controller('SignInCtrl', function($scope, $state, $timeout, $ionicLoading, Auth, Events, Actions) {
     $scope.user = {
       username: '',
       password: ''
     }
 
+    var loading = null;
+
+    Events.on('login', function(message){
+      if (loading !== null) {
+        loading.hide();
+        loading = null;
+      }
+      $timeout(function(){
+        if(message.success === true) {
+          $state.go('tabs.autolist');
+        } else {
+          Actions.error('login refused');
+        }
+      }, 500);
+    });
     $scope.doSignIn = function() {
+      loading = $ionicLoading.show({content: 'logging in...'});
       Auth.login($scope.user);
-      //$state.go('tabs.autolist');
     };
   })
 
@@ -128,8 +143,8 @@ angular.module('app', ['ionic', 'ngAnimate'])
 
     $scope.rightButtons = [
       { content: '',
-        type:    'button button-clear icon ion-gear-a',
-        tap:     function() {
+        type: 'button button-clear icon ion-gear-a',
+        tap: function() {
           $scope.sideMenuController.toggleRight();
         }
       }
@@ -158,16 +173,16 @@ angular.module('app', ['ionic', 'ngAnimate'])
     $scope.leftButtons = [
       {
         content: ' Back to List',
-        type:    'button button-clear icon ion-ios7-arrow-back',
-        tap:     function(e) {
+        type: 'button button-clear icon ion-ios7-arrow-back',
+        tap: function(e) {
           $state.go('tabs.autolist');
         }}
     ];
 
     $scope.rightButtons = [
       { content: '',
-        type:    'button button-clear icon ion-gear-a',
-        tap:     function() {
+        type: 'button button-clear icon ion-gear-a',
+        tap: function() {
           console.log($scope);
           $scope.sideMenuController.toggleRight();
         }
@@ -192,8 +207,8 @@ angular.module('app', ['ionic', 'ngAnimate'])
   .controller('SettingsCtrl', function($scope, $state, Actions) {
     $scope.settings = [
       {
-        text:   'profile',
-        icon:   'ion-person',
+        text: 'profile',
+        icon: 'ion-person',
         action: function() {
           Actions.not_supported('Profile')
         }
@@ -201,23 +216,25 @@ angular.module('app', ['ionic', 'ngAnimate'])
     ];
 
   })
-  .controller('AppCtrl', function($scope, $state, PubNub, $ionicLoading) {
+  .controller('AppCtrl', function($scope, $state, $timeout, PubNub, Events, $ionicLoading) {
     var loading = null;
     var pubnub = PubNub
       .onOnlineStatusChanged(function(isOnline) {
         $scope.isOnline = isOnline;
-        if(isOnline) {
-          if(loading !== null)  {
+        if (isOnline) {
+          if (loading !== null) {
             loading.hide();
             loading = null;
           }
         } else {
-          loading = $ionicLoading.show({content:'network offline detected, please reconnect to continue'});
+          loading = $ionicLoading.show({content: 'network offline detected, please reconnect to continue'});
         }
       });
-//    $scope.$root.$on('$stateChangeStart', function(to, toParams, from, fromParams) {
-//      console.log([from.id, fromParams]);
-//    });
+
+    $timeout(function() {
+      Events.start();
+    }, 10);
+
   });
 
 
